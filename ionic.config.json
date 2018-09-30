@@ -1,0 +1,7 @@
+{
+  "name": "filePluginTest",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
