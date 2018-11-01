@@ -3,7 +3,7 @@
     <name>filePluginTest</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.0.8:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -88,6 +88,5 @@
     <plugin name="cordova-plugin-file-opener2" spec="^2.0.19" />
     <plugin name="cordova-plugin-printer" spec="^0.7.3" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
-    <allow-navigation href="http://192.168.0.8:8100" sessionid="9e6d1b9c" />
     <engine name="android" spec="7.0.0" />
 </widget>
