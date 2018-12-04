@@ -21,10 +21,9 @@
     <canvas #imageCanvas (touchstart)="startDrawing($event)" (touchmove)="moved($event)"></canvas>
  
     <button ion-button full (click)="saveCanvasImage()">Save Image</button>
-    <button ion-button full (click)="emailCanvasImage()">Email</button>
-    <button ion-button full (click)="printCanvasImage()">print</button>
+    <button ion-button full (click)="emailCanvasImage()">Email Image</button>
+    <button ion-button full (click)="printCanvasImage()">Print Image</button>
     <button ion-button full (click)="saveContact()">Save Contact</button>
-    <button ion-button full (click)="splash()">Splash</button>
   </div>
  
 </ion-content>

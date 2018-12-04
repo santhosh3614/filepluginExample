@@ -12,14 +12,11 @@ import {HttpModule} from '@angular/http';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Printer } from '@ionic-native/printer';
 import { Contacts } from '@ionic-native/contacts';
-import { MoreproviderProvider } from '../providers/moreprovider/moreprovider';
-import { SplashPage } from '../pages/splash/splash';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    SplashPage
+    HomePage
   ],
   imports: [
     BrowserModule,
@@ -29,8 +26,7 @@ import { SplashPage } from '../pages/splash/splash';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    SplashPage
+    HomePage
   ],
   providers: [
     StatusBar,
@@ -42,8 +38,7 @@ import { SplashPage } from '../pages/splash/splash';
     LocalNotifications,
     EmailComposer,
     Printer,
-    Contacts,
-    MoreproviderProvider
+    Contacts
   ]
 })
 export class AppModule {}

@@ -36,17 +36,16 @@
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-email-composer": "^0.8.15",
     "cordova-plugin-file": "^6.0.1",
-    "cordova-plugin-file-opener2": "^2.0.19",
+    "cordova-plugin-file-opener2": "git+https://github.com/santhosh3614/cordova-plugin-file-opener2.git",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^2.1.4",
     "cordova-plugin-local-notification": "^0.9.0-beta.2",
-    "cordova-plugin-printer": "^0.7.3",
+    "cordova-plugin-printer": "git+https://github.com/santhosh3614/cordova-plugin-printer.git",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
-    "jspdf": "^1.4.1",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.26"
@@ -69,11 +68,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-local-notification": {},
       "cordova-plugin-email-composer": {},
-      "cordova-plugin-file-opener2": {
-        "ANDROID_SUPPORT_VERSION": "27.+"
-      },
-      "cordova-plugin-printer": {},
-      "cordova-plugin-contacts": {}
+      "cordova-plugin-contacts": {},
+      "cordova-plugin-file-opener2": {},
+      "cordova-plugin-printer": {}
     },
     "platforms": [
       "android"

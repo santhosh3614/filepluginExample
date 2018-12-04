@@ -5,11 +5,9 @@ import { ToastController } from 'ionic-angular';
 import { FileOpener } from '@ionic-native/file-opener';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Http } from '@angular/http';
-import * as jsPDF from 'jspdf';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Printer, PrintOptions } from '@ionic-native/printer';
 import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts';
-import { MoreproviderProvider } from '../../providers/moreprovider/moreprovider';
 
 @Component({
   selector: 'page-home',
@@ -35,8 +33,7 @@ export class HomePage {
     public _http: Http,
     private emailComposer: EmailComposer,
     private printer: Printer,
-    private contacts: Contacts,
-    private moreProvider:MoreproviderProvider) {}
+    private contacts: Contacts) {}
 
   ionViewDidEnter() {
     console.log("ionViewDidEnter")
@@ -92,8 +89,6 @@ export class HomePage {
   }
 
   emailCanvasImage(){
-    this.moreProvider.disableScreenSaver();
-
     var dataUrl = this.canvasElement.toDataURL('image/jpeg',1.0);//image/jpeg, image/png
     let ctx = this.canvasElement.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
@@ -124,14 +119,6 @@ export class HomePage {
           if(this.plt.is('android')){
             this.emailComposer.addAlias('gmail', 'com.google.android.gm');
           }
-                   
-          // Send a text message using default options
-          this.emailComposer.open(email).then(()=>{
-            this.moreProvider.enableScreenSaver();
-          },()=>{
-            this.moreProvider.enableScreenSaver();
-          });
-          // this.moreProvider.enableScreenSaver();
          })
      });
   }
@@ -141,61 +128,24 @@ export class HomePage {
     let ctx = this.canvasElement.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
    
-    let name = new Date().getTime() + '.pdf';
+    let name = new Date().getTime() + '.jpeg';
     let path = this.file.externalRootDirectory ;
 
     let options: IWriteOptions = { replace: true };
     var data = dataUrl.split(',')[1];
 
-    this._http.get('../../assets/blob_1538368396450.txt')
-          .subscribe(text => {
-            data= text;
-            // data="gFAKAUB//Z";
-            let blob = this.b64toBlob(data, 'application/pdf');
+    let blob = this.b64toBlob(data, 'image/jpeg');
 
-            this.file.checkDir(path, "Download").then((success)=>{
-              if(success){
+    this.file.checkDir(path, "Download").then((success)=>{
+            if(success){
                 this.saveFile(path+"Download/",name,blob,options);
-              }else{
+            } else {
                 this.file.createDir(path, "Download", false).then((success)=>{
                   if(success){
                     this.saveFile(path+"Download/",name,blob,options);
                   }
                 });
-              }
-            });
-          });
-
-    // var pdf = new jsPDF();
-    // pdf.addImage(dataUrl, 'JPEG', 0, 0);
-    // pdf.save("download.pdf");
-  }
-
-  printCanvasImage(){
-    var dataUrl = this.canvasElement.toDataURL('image/jpeg',1.0);//image/jpeg, image/png
-    let ctx = this.canvasElement.getContext('2d');
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
-   
-    let name = new Date().getTime() + '.pdf';
-    let path = this.file.externalRootDirectory ;
-
-    let options: IWriteOptions = { replace: true };
-    var data = dataUrl.split(',')[1];
-
-    this.printer.isAvailable().then((success)=>{
-        console.log("printer success isAvailable");
-        let options: PrintOptions = {
-          name: 'MyDocument'
-        };
-    
-        let printData= "<img src='"+dataUrl+"'></img>"
-        this.printer.print(printData, options).then((success)=>{
-          console.log("printer success");
-        }, (error)=>{
-          console.log("Error in print");
-        });
-    }, (error)=> {
-        console.log("Error in print: isAvailable");
+            }
     });
   }
 
@@ -213,7 +163,7 @@ export class HomePage {
 
       toast.onDidDismiss(() => {
             console.log('Dismissed toast');
-            this.fileOpener.open(path+name, 'application/pdf')
+            this.fileOpener.open(path+name, 'image/jpeg')
         .then(() => console.log('File is opened'))
         .catch(e => console.log('Error opening file', e));
       });
@@ -226,7 +176,7 @@ export class HomePage {
           text: 'Download Succesfull',
         })
         this.localNotifications.on("click").subscribe((data) => {
-          this.fileOpener.open(path+name, 'application/pdf')
+          this.fileOpener.open(path+name, 'image/jpeg')
         });
       })
     }, err => {
@@ -247,14 +197,34 @@ export class HomePage {
       for (var i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
-   
       var byteArray = new Uint8Array(byteNumbers);
-   
       byteArrays.push(byteArray);
     }
    
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
+  }
+
+  printCanvasImage(){
+    var dataUrl = this.canvasElement.toDataURL('image/jpeg',1.0);//image/jpeg, image/png
+    let ctx = this.canvasElement.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // Clears the canvas
+
+    this.printer.isAvailable().then((success)=>{
+        console.log("printer success isAvailable");
+        let options: PrintOptions = {
+          name: 'MyDocument'
+        };
+    
+        let printData= "<img src='"+dataUrl+"'></img>"
+        this.printer.print(printData, options).then((success)=>{
+          console.log("printer success");
+        }, (error)=>{
+          console.log("Error in print");
+        });
+    }, (error)=> {
+        console.log("Error in print: isAvailable");
+    });
   }
 
   saveContact(){
@@ -268,31 +238,4 @@ export class HomePage {
     );
   }
 
-  splash(){
-    this.moreProvider.openSplash();
-  }
-
-  ionViewWillLeave() {
-    console.log("ionViewWillLeave");
-  }
-
-  ionViewWillEnter() {
-    console.log("ionViewWillEnter");
-  }
-
-  ionViewDidLeave() {
-    console.log("ionViewDidLeave");
-  }
-
-  ionViewWillUnload	() {
-    console.log("ionViewWillUnload	");
-  }
-
-  ionViewCanEnter() {
-    console.log("ionViewCanEnter");
-  }
-
-  ionViewCanLeave() {
-    console.log("ionViewCanLeave");
-  }
 }
